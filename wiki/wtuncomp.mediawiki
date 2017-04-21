@@ -1,0 +1,9 @@
+== WTUNCOMP - UNCOMPression of WT compressed data    ==             
+   
+:: Usage:                                                                     
+::<source> wtuncomp < stdin > sdtout </source>                                           
+                                                                        
+:: Required Parameters:                                                   
+::::   none                                                                
+:: Optional Parameters:                                                   
+::::    none         

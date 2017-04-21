@@ -1,0 +1,11 @@
+==DCTUNCOMP - Discrete Cosine Transform Uncompression 		==	
+	
+Usage:								
+<source>   dctuncomp < stdin >stdout 		</source>				
+									
+Required Parameters:							
+:none									
+Optional Parameters:							: 
+:none									
+Notes:								
+:The input of this program is a file compressed by dctcomp.

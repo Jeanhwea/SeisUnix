@@ -1,0 +1,215 @@
+The following instructions have been tested on [http://releases.ubuntu.com/11.10/ Ubuntu 11.10.] They should apply to other similar systems with little to no modifications. 
+
+==Download SU from CWP website==
+In what follows Seismic Unix will be downloaded and installed into the current user's home directory. It is possible to install SU globally using ​{{bash|sudo}}​ if necessary. However, this is not recommended because iIt is possible to damage a system's file structure if the install is not done properly. First, download the compressed tar-ball and unpack it to the home directory.
+<source lang="bash">
+mkdir -p ~/cwp/43R1
+cd ~/cwp/43R1
+wget ftp://ftp.cwp.mines.edu/pub/cwpcodes/cwp_su_all_43R1.tgz
+tar -zxvf cwp_su_all_43R1.tgz
+</source>
+
+==Add new variables to the shell environment==
+
+Add new path variables to the configuration file and make the new settings active. To do that, include the following two lines into the file {{code|~/.bashrc}} using your favorite text editor such as emacs:
+<pre>
+export CWPROOT=~/cwp/43R1
+export PATH=$PATH:~/cwp/43R1/bin
+</pre>
+or type in the terminal:
+<source lang="bash">
+echo "export CWPROOT=~/cwp/43R1" >> ~/.bashrc
+echo "export PATH=$PATH:~/cwp/43R1/bin" >> ~/.bashrc
+</source>
+Make the changes active by issuing a command
+<source lang="bash">
+source ~/.bashrc
+</source>
+
+== Edit the SU configuration file ==
+
+Edit the file {{bash|$CWPROOT/src/Makefile.config}} to agree with the needs of your system. It should suffice to simply comment out the parts that are for Solaris.
+
+<pre>
+Here is an example for Ubuntu 11.10 contributed by Jose Colmenares. I have changed this to include XDR,
+though Jose's original Makefile.config did not have SUXDR set.
+
+
+
+#=======================================================================
+#                 Makefile.config for Ubuntu 11.10
+#=======================================================================
+#-----------------------------------------------------------------------
+# pick up the Make rules (Gnu make required)
+#-----------------------------------------------------------------------
+
+include $(CWPROOT)/src/Rules/gnumake.rules
+include $(CWPROOT)/src/Rules/abbrev.rules
+include $(CWPROOT)/src/Rules/cflags.rules
+include $(CWPROOT)/src/Rules/suffix.rules
+include $(CWPROOT)/src/Rules/misc.rules
+include $(CWPROOT)/src/Rules/opengl.rules
+
+#-----------------------------------------------------------------------
+#                      CWP feature options
+#-----------------------------------------------------------------------
+#
+# LINEHDRFLAG=SU_LINEHEADER  - adds 3200 byte text & 400 byte SEG-Y 
+#                              style line headers to output. CWP/SU
+#                              always reads either format unless SUXDR
+#                              has been selected.
+
+
+#
+# XDRFLAG=-DSUXDR            - forces all SU data to be big endian
+#                              independent of processor architecture
+#
+# LARGE_FILE_FLAG            - controls access to files > 2 GB on
+#                              some systems.
+#
+# -DSLTSU_SEGY_H             - if defined selects SLT/SU trace header
+#                              layout so both packages are compatible
+#-----------------------------------------------------------------------
+
+LINEHDRFLAG = 
+XDRFLAG =  -DSUXDR
+ENDIANFLAG = -DCWP_LITTLE_ENDIAN
+LARGE_FILE_FLAG = -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE
+
+CWP_FLAGS = $(LARGE_FILE_FLAG) $(ENDIANFLAG) $(XDRFLAG) $(LINEHDRFLAG)
+
+#-----------------------------------------------------------------------
+# system stuff
+#-----------------------------------------------------------------------
+
+
+SHELL = /bin/sh
+ROOT = $(CWPROOT)
+
+LN = ln # this needs to be changed to cp for FAT32 filesystems
+AR = ar
+ARFLAGS = rv
+RANLIB = ranlib
+RANFLAGS = 
+ICHMODLINE = chmod 644 $@
+MCHMODLINE = chmod 755 $@
+
+POSTLFLAGS = 
+
+#-----------------------------------------------------------------------
+# use both X11 path conventions
+#-----------------------------------------------------------------------
+
+IX11 = /usr/X11/include
+LX11 = /usr/X11/lib
+IMOTIF = /usr/X11R6/include
+LMOTIF = /usr/X11R6/lib
+
+LD_LIBRARY_PATH += $(CWPROOT)/lib:${LX11}:${LMOTIF}
+
+#-----------------------------------------------------------------------
+
+CPP = cpp
+
+CC = gcc
+OPTC = -g  -std=c99 -Wall -pedantic -Wno-long-long 
+CFLAGS = -I$I $(OPTC) $(CWP_FLAGS) -D_BSD_SOURCE -D_POSIX_SOURCE
+
+FC = gfortran
+FOPTS = -g 
+FFLAGS = $(FOPTS) -ffixed-line-length-none
+
+C++FLAGS = -I$I $(OPTC) $(CWP_FLAGS)
+
+</pre>
+
+== Install the desired components ==
+
+=== Install the basic set of codes===
+<source lang="bash">
+cd $CWPROOT/src
+make install
+</source>
+
+===Install the X-toolkit applications===
+<source lang="bash">
+make xtinstall
+</source>
+If you get an error that {{bash|xlib.h}} is missing, then you probably need to install X:
+<source lang="bash">
+sudo apt-get install libx11-dev
+</source>
+
+If you get an error that {{bash|Intrinsic.h}} is missing, then you need another library that can be installed with:
+<source lang="bash">
+sudo apt-get install libxt-dev
+</source> 
+
+===Install the Fortran codes===
+First, install a Fortran compiler by either typing
+<source lang="bash">
+sudo apt-get install gfortran
+</source>
+or by [http://packages.ubuntu.com/search?keywords=gfortran downloading it] directly from the Ubuntu website.
+<source lang="bash">
+make finstall
+</source>
+
+=== Install Mesa/Open GL (experimental)===
+<source lang="bash">
+make mglinstall
+</source>
+If you get the error saying that {{bash|Glut.h}} is missing then install it by typing
+<source lang="bash">
+sudo apt-get install freeglut3-dev
+</source>
+If you get the errors
+<pre>
+/usr/bin/ld: cannot find -lXmu
+</pre>
+or
+<pre>
+/usr/bin/ld: cannot find -lXi
+</pre>
+be sure to install {{bash|libxmu-dev}} and {{bash|libxi-dev}} with
+<source lang="bash">
+sudo apt-get install libxmu-dev libxi-dev
+</source>
+
+===Install {{bash|libswputils}} (not essential)===
+<source lang="bash">
+make utils
+</source>
+If you get an error then try
+<source lang="bash">
+sudo apt-get install libc6
+</source>
+
+===Install Motif (not essential)===
+<source lang="bash">
+make xminstall
+</source>
+If you get the error of missing {{bash|xm.h}} then check for dependencies first:
+<source lang="bash">
+sudo apt-get update
+sudo apt-get install libmotif4
+sudo apt-get install libxt6
+sudo apt-get install x11proto-print-dev
+sudo apt-get install libmotif-dev
+</source>
+===Install improved SEGDREAD===
+<source lang="bash">
+make sfinstall
+</source>
+
+==Test the installation==
+
+Execute the following command in the terminal:
+<source lang="bash">
+suplane | suximage title="My first test" &
+</source>
+If a figure appears then the installation has been done correctly.
+
+{{SU install}}
+
+[[Category:Linux]]

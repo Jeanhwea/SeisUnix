@@ -1,0 +1,8 @@
+==   WPTUNCOMP - Uncompress  WPT compressed data     ==                       
+                                                                        
+::<source>  wptuncomp < stdin > sdtout    </source>                                       
+                                                                        
+Required Parameters:                                                   
+::none                                                                  
+Optional Parameters:                                                   
+::none   

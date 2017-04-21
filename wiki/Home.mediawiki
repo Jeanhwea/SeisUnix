@@ -1,0 +1,84 @@
+== About ==
+
+''Main article:'' [[History]]
+
+The CWP/SU:'''Seismic Un*x''' is an open source seismic utilities package supported by the Center for Wave Phenomena (CWP) at the [http://www.mines.edu Colorado School of Mines] (CSM). The package provides an instant seismic research and processing environment
+for users running on all Unix and Unix-like operating systems, which include the operating systems whose names begin in "U" and
+end in "X", Mac OS X, Linux, Free BSD Unix, and the Cygwin32 system for Windows PCs.
+
+New users are encouraged to visit the [http://www.cwp.mines.edu/cwpcodes/index.html Seismic Unix Home page] where you can download a copy of the latest release.
+
+== Syntax ==
+
+The Seismic Unix routines run under the Unix terminal, and can get maximum efficiency when using it with Bourne Shell (sh) or Bourne-again Shell (bash) scripting techniques.
+
+=== Simple routines ===
+
+Many of the programs run simply by a command on the terminal, for instance, to visualize a seismogram, as wiggle traces
+
+<source lang=bash>$ suxwigb < seismogram.su</source>
+
+or as an image plot
+
+<source lang=bash>$ suximage < seismogram.su </source>
+
+=== More elaborate routines ===
+
+It is also possible, to use bash features do elaborate more complex processing structures:
+
+<source lang=bash>$ for ((i=1;$i<=100;i++)); do
+> sufdmod2 < model.bin > output.mov nx=200 nz=300 tmax=5 xs=$i zs=0 hsfile=seismogram.$i.su
+> done</source>
+
+In the example above Seismic Unix will create 100 seismograms in 100 different source positions
+
+Long term, a better approach is write a shell script (Bourne shell or bash, DON'T use csh & family) and take the time to comment it. Then give it a sensible name that you have some chance of understanding a few years later.  This may seem like a lot of extra work, but if you don't you will eventually wish that you had.
+
+== SU Data ==
+
+
+''Main article:'' [[Seismic Unix data format]]
+
+== SU Programs ==
+
+''Main article:'' [[Programs]]
+
+Seismic Unix has many of the processes needed on the geophysical processing. It is possible to use it to manipulate and create your own seismograms, and also to convert them between the SU standard file and the industry standard, the [http://walter.kessinger.com/work/segy.html SEG Y].
+
+== Awards ==
+
+* 2014 — [http://seg.org Society of Exploration Geophysicists] Presidential Award
+* 2002 — [http://seg.org Society of Exploration Geophysicists] Special Commendation
+* 1994 — University to Industry award from the Colorado chapter of the Technology Transfer Society
+
+== Guides ==
+
+* [http://aqueleabraco.wordpress.com/sismica/guiasu/ Seismic Unix Install Guide] (in Portuguese)
+* [http://www.reproducibility.org/RSF/book/data/alaska/paper.pdf A tutorial for processing a 2D land line] by Karl Schleicher
+* [ftp://ftp.cwp.mines.edu/pub/cwpcodes/sumanual_300dpi_a4.pdf The New SU User’s Manual] by John W. Stockwell, Jr. and Jack K. Cohen
+* [[The Wiki Guide]]  A work in progress to develop an online guide to using SU
+
+== SU community ==
+
+Seismic Unix has a very large community. Many laboratories and individual researchers use SU in their work. There is a listserver group where users can post their questions about SU and obtain help. 
+* [https://mailman.mines.edu/mailman/listinfo/seisunix Subscribe to the SU mailing list]
+* [https://mailman.mines.edu/pipermail/seisunix/ SU mailing list archives]
+
+==Installation Notes==
+
+Most system headers have a dazzling variety  of {{c|#if}} conditionals.  If you specify the wrong flags for your system the compile can get confused in interesting ways. If your system requires certain things in CFLAGS, they need to be defined on the OPTC line of {{bash|Makefile.config}}.  Otherwise, they won't be passed to all the Makefiles.  The CFLAGS used for many portions of CWP/SU are defined in the
+file {{bash|${CWPROOT}/src/Rules/cflags.rules}} rather than the CFLAGS line in {{bash|Makefile.config}}
+
+* [[Seismic Unix install on Windows| How to install Seismic Unix on Windows under Cygwin]]
+* [[Seismic Unix install on Mac OS X|How to install Seismic Unix on Mac OS X]]
+* [[Seismic Unix install on Linux|How to install Seismic Unix on Linux in general]] or [[Seismic Unix install on Ubuntu|Ubuntu]] in particular
+* [[Seismic Unix install on Archlinux]] 
+* [[Seismic Unix install on Solaris|How to install Seismic Unix on Solaris (Solaris, OpenSolaris, OpenIndiana)]]
+
+[[Category:Installation]]
+
+
+== Software Engineering & Development==
+Some basic introduction to  software engineering and further development of SU
+
+''Main article'' [[Software Engineering]]

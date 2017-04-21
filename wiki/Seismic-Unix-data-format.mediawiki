@@ -1,0 +1,222 @@
+[[Return to the Main Page|https://github.com/JohnWStockwellJr/SeisUnix/wiki]]
+
+
+
+Here will have an explanation of how SU data is, it's headers and how they are organized in a big SU file with more than one gather:
+
+{| class="wikitable"
+|-
+|+ SEG-Y Data Exchange Format, Rev. 0 and Rev. 1, with Seismic Un*x keys
+|-
+! SU key !! Length !! Bytes !! Description
+|-
+| tracl || 4 || 1-4 || Trace sequence number within line -- numbers continue to increase if additional reels are required on same line.
+|-
+| tracr || 4 || 5-8 || Trace sequence number within reel -- each reel starts at trace number one.
+|-
+| fldr || 4 || 9-12 || Original field record number.
+|-
+| tracf || 4 || 13-16 || Trace number within the original field record.
+|-
+| ep || 4 || 17-20 || Energy source point number -- used when more than one record occurs at the same effective surface location.
+|-
+| cdp || 4 || 21-24 || "Ensemble number: CDP, CMP, CRP, etc."
+|-
+| cdpt || 4 || 25-28 || Trace number within the CDP ensemble -- each ensemble starts with trace number one.
+|-
+| trid || 2 || 29-30 || "Trace identification code. -1=other, 0=unknown, 1=seismic, 2=dead, 3=dummy, 4=time-break, 5=uphole, 6=sweep, 7=timing, 8=water-break, etc."
+|-
+| nvs || 2 || 31-32 || "Number of vertically summed traces yielding this trace. (1 is one trace, 2 is two summed traces, etc.)"
+|-
+| nhs || 2 || 33-34 || "Number of horizontally stacked traces yielding this trace. (1 is one trace, 2 is two stacked traces, etc.)"
+|-
+| duse || 2 || 35-36 || "Data use: 1=production, 2=test."
+|-
+| offset || 4 || 37-40 || Distance from source point center to receiver group center (negative if opposite to direction in which line is shot).
+|-
+| gelev || 4 || 41-44 || "Receiver group elevation; elevations above sea level are positive, below sea level are negative."
+|-
+| selev || 4 || 45-48 || Surface elevation at source.
+|-
+| sdepth || 4 || 49-52 || Source depth below surface (a positive number).
+|-
+| gdel || 4 || 53-56 || Datum elevation at receiver group.
+|-
+| sdel || 4 || 57-60 || Datum elevation at source.
+|-
+| swdep || 4 || 61-64 || Water depth at source.
+|-
+| gwdep || 4 || 65-68 || Water depth at group.
+|-
+| scalel || 2 || 69-70 || "Scalar to be applied to all elevations and depths in bytes 41-68 to give real value.  Scaler = 1, +/- 10, ... +/- 10,000. Positive=multiplier; negative=divisor."
+|-
+| scalco || 2 || 71-72 || "Scalar to be applied to all coordinates in bytes 73-88 to give real value. Scaler = 1, +/- 10, ... +/- 10,000. Positive=multiplier; negative=divisor."
+|-
+| sx || 4 || 73-76 || Source coordinate - X.
+|-
+| sy || 4 || 77-80 || Source coordinate - Y.
+|-
+| gx || 4 || 81-84 || Group coordinate - X.
+|-
+| gy || 4 || 85-88 || Group coordinate - Y.
+|-
+| counit || 2 || 89-90 || "Coordinate units: 1=length (m or ft), 2=seconds of arc, 3=decimal degrees, 4=degrees, minutes, seconds (DMS)."
+|-
+| wevel || 2 || 91-92 || Weathering velocity (ft/s or m/s).
+|-
+| swevel || 2 || 93-94 || Subweathering velocity (ft/s or m/s).
+|-
+| sut || 2 || 95-96 || Uphole time at source (ms).
+|-
+| gut || 2 || 97-98 || Uphole time at group (ms).
+|-
+| sstat || 2 || 99-100 || Source static correction (ms).
+|-
+| gstat || 2 || 101-102 || Group static correction (ms).
+|-
+| tstat || 2 || 103-104 || Total static applied (ms). (Zero if no static has been applied.)
+|-
+| laga || 2 || 105-106 || "Lag time A (ms). Time between end of 240-byte trace ID header and time break. Positive if time break occurs after end of header, negative if time break occurs before end of header."
+|-
+| lagb || 2 || 107-108 || Lag Time B (ms). Time between time break and the initiation time of the energy source. May be positive or negative.
+|-
+| delrt || 2 || 109-110 || Delay recording time (ms). Time between initiation time of energy source and time when recording of data samples begins. (For deep water work if data recording does not start at zero time.)
+|-
+| muts || 2 || 111-112 || Mute time -- start (ms).
+|-
+| mute || 2 || 113-114 || Mute time -- end (ms).
+|-
+| ns || 2 || 115-116 || Number of samples in this trace.
+|-
+| dt || 2 || 117-118 || Sample interval in µsec for this trace.
+|-
+| gain || 2 || 119-120 || "Gain type of field instruments: 1=fixed, 2=binary, 3=floating point, 4-N = optional use."
+|-
+| igc || 2 || 121-122 || Instrument gain constant (dB).
+|-
+| igi || 2 || 123-124 || Instrument early or initial gain (dB).
+|-
+| corr || 2 || 125-126 || "Correlated: 1=no, 2=yes."
+|-
+| sfs || 2 || 127-128 || Sweep frequency at start (Hz).
+|-
+| sfe || 2 || 129-130 || Sweep frequency at end (Hz).
+|-
+| slen || 2 || 131-132 || Sweep length (ms).
+|-
+| styp || 2 || 133-134 || "Sweep type: 1=linear, 2=parabolic, 3=exponential, 4=other."
+|-
+| stas || 2 || 135-136 || Sweep trace taper length at start (ms).
+|-
+| stae || 2 || 137-138 || Sweep trace taper length at end (ms).
+|-
+| tatyp || 2 || 139-140 || "Taper type: 1=linear, 2=cosine squared, 3=other."
+|-
+| afilf || 2 || 141-142 || "Alias filter frequency (Hz), if used."
+|-
+| afils || 2 || 143-144 || Alias filter slope (dB/octave).
+|-
+| nofilf || 2 || 145-146 || "Notch filter frequency (Hz), if used."
+|-
+| nofils || 2 || 147-148 || Notch filter slope (dB/octave).
+|-
+| lcf || 2 || 149-150 || "Low cut frequency (Hz), if used."
+|-
+| hcf || 2 || 151-152 || "High cut frequency (Hz), if used."
+|-
+| lcs || 2 || 153-154 || Low cut slope (dB/octave).
+|-
+| hcs || 2 || 155-156 || High cut slope (dB/octave).
+|-
+| year || 2 || 157-158 || Year data recorded.
+|-
+| day || 2 || 159-160 || Day of year (Julian day for GMT and UTC time basis).
+|-
+| hour || 2 || 161-162 || Hour of day (24 hour clock).
+|-
+| minute || 2 || 163-164 || Minute of hour.
+|-
+| sec || 2 || 165-166 || Second of minute.
+|-
+| timbas || 2 || 167-168 || "Time basis code: I=local, 2=GMT, 3=other, 4=UTC (Coordinated Universal Time)."
+|-
+| trwf || 2 || 169-170 || "Trace weighting factor -- defined as 2^(-N) volts for the least significant bit. (N = 0, 1, .... 32, 767.)"
+|-
+| grnors || 2 || 171-172 || Geophone group number of roll switch position one.
+|-
+| grnofr || 2 || 173-174 || Geophone group number of trace number one within original field record.
+|-
+| grnlof || 2 || 175-176 || Geophone group number of last trace within original field record.
+|-
+| gaps || 2 || 177-178 || Gap size (total number of groups dropped).
+|-
+| ofrav || 2 || 179-180 || "Overtravel associated with taper at beginning or end of line: I=down (or behind), 2=up (or ahead)."
+|-
+| - || 60 || 181-240 || SEG-Y Revison 0: Unassigned -- for optional information.
+|-
+| - || - || - || -
+|-
+| - || - || - || <b>Some extended SU header locations follow. These were created before SEG-Y revision 1.</b>
+|-
+| - || - || - || -
+|-
+| d1 || 4 || 181-184 || (float) sample spacing for non-seismic data
+|-
+| f1 || 4 || 185-188 || (float) first sample location for non-seismic data
+|-
+| d2 || 4 || 189-192 || (float) sample spacing between traces
+|-
+| f2 || 4 || 193-196 || (float) first trace location
+|-
+| ungpow || 4 || 197-200 || (float) negative of power used for dynamic range compression
+|-
+| unscale || 4 || 201-204 || (float) reciprocal of scaling factor to normalize range
+|-
+| ntr || 4 || 205-208 || number of traces
+|-
+| mark || 2 || 209-210 || mark selected traces
+|-
+| shortpad || 2 || 211-212 || alignment padding
+|-
+| unass || 28 || 213-240 || unassigned
+|-
+| - || - || - || -
+|-
+| - || - || - || <b>SEG-Y Revison 1 locations follow</b>
+|-
+| - || - || - || -
+|-
+| - || 4 || 181-184 || X-coordinate of ensemble (CDP) position of this trace (scalar in Trace Header bytes 71-72 applies).
+|-
+| - || 4 || 185-188 || Y-coordinate of ensemble (CDP) position of this trace (scalar in Trace Header bytes 71-72 applies).
+|-
+| - || 4 || 189-192 || "For 3-D poststack data, in-line number. If one in-line per SEG-Y file is being recorded, this value should be the same for all traces."
+|-
+| - || 4 || 193-196 || "For 3-D poststack data, cross-line number. This will typically be the same value as the ensemble (CDP) number in Trace Header bytes 21-24, but this does not have to be the case."
+|-
+| - || 4 || 197-200 || Shotpoint number. This is probably only applicable to 2-D poststack data.  Note that it is assumed that the shotpoint number refers to the source location nearest to the ensemble (CDP) location for a particular trace.
+|-
+| - || 2 || 201-202 || Scalar to be applied to SP number in bytes 197-200 to give the real value. Positive=multiplier; negative=divisor; zero=no scaling.
+|-
+| - || 2 || 203-204 || "Trace value measurement unit: -1=other, 0=unknown, 1=Pascal (Pa), 2=Volts (V), 3=milliVolts (mV), 4=Amperes (A), 5=Meters (m), 6=meters/second, 7=meters/(sec^2), 8=Newton (N), 9=Watt (W)."
+|-
+| - || 6 || 205-210 || Transcuction constant -- multiplicative constant used to convert the Data Trace samples to the Transduction Units (bytes 211-212).
+|-
+| - || 2 || 211-212 || "Transduction units: -1=other, 0=unknown, 1=Pascal (Pa), 2=Volts (V), 3=milliVolts (mV), 4=Amperes (A), 5=Meters (m), 6=meters/second, 7=meters/(sec^2), 8=Newton (N), 9=Watt (W)."
+|-
+| - || 2 || 213-214 || Device/Trace identifier -- unit number or id number of the device associated with the Data Trace. This allows traces to be associated across trace ensembles independent of the trace number (bytes 25-28).
+|-
+| - || 2 || 215-216 || "Scalar to be applied to times specified in bytes 95-114 to give true time value in ms. Scalar = 1, +/- 10, ... +/- 10,000. Positive=multiplier, negative=divisor, zero=no scaling."
+|-
+| - || 2 || 217-218 || "Source Type/Orientation: -1 to -n=other, 0=unknown, 1=vibrator vertical, 2=vibrator xline, 3=vibrator inline, 4=impulse vertical, 5=impulse xline, 6=impulse inline, 7=distributed impulse vertical, 8=distributed impulse xline, 9=distributed impulse inline."
+|-
+| - || 6 || 219-224 || Source energy direction with respect to the source orientation. The positive orientation direction is in bytes 217-218. Energy direction is encoded in tenths of degrees (347.8 deg is encoded as 3478).
+|-
+| - || 6 || 225-230 || Source measurement.
+|-
+| - || 2 || 231-232 || "Source measurement unit: -1=other, 0=unknown, 1=Joule (J), 2=kilowatt (kW), 3=Pascal (Pa), 4=Bar (Bar), 4=Bar-meter (Bar-m), 5=Newton (N), 6=kilogram (kg)."
+|-
+| - || 8 || 233-240 || Unassigned -- for optional information.
+|}
+
+[[Return to the Main Page|https://github.com/JohnWStockwellJr/SeisUnix/wiki]]

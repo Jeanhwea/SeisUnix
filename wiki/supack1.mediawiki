@@ -1,0 +1,10 @@
+== SUPACK1 - pack segy trace data into chars		==	
+								
+Usage:
+<source> supack1 <segy_file >packed_file		</source>	
+								
+Required parameters:						
+:none							
+						        	
+Optional parameter: 						
+<source>   gpow=0.5	exponent used to compress the dynamic range of the traces </source>

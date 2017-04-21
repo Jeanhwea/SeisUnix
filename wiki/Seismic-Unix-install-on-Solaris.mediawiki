@@ -1,0 +1,130 @@
+==Seismic Unix install on Solaris==
+===OpenIndiana===
+
+This describes a very basic install on OpenIndiana. Experienced admins and developers will doubtless want to do something more sophisticated. The Solaris 10 and OpenSolaris procedures are very similar, the primary difference being that Solaris 10 normally installs the system headers rather than the current fashion of leaving them out and forcing the user to do it as a separate step.
+
+Download the Oracle/Sun Studio 12 development suite from:
+
+<source> http://www.oracle.com/technetwork/server-storage/solarisstudio/downloads/index.html </source>
+
+Become root (or use pfexec) and install Studio and the system headers:
+<source>
+$ su -
+$ mkdir /opt/tmp
+$ cd /opt/tmp
+$ bzcat SolarisStudio12.2-solaris-x86-pkg-ML.bz2 | tar xf -
+$ cd SolarisStudio12.2-solaris-x86-pkg-ML
+$ ./SolarisStudio12.2-solaris-x86-pkg-ML.sh
+$ pkg install pkg:/system/header
+$ pkg install pkg:/developer/library/lint
+$ pkg install pkg:/library/motif
+$ mkdir /app
+$ chmod 1777 /app
+</source>
+
+As a regular user:
+
+Download SU from CWP:
+<source>
+http://www.cwp.mines.edu/cwpcodes/index.html </source>
+
+Create an installation directory and unpack SU
+
+<source>
+$ mkdir -p /app/cwp/42.11
+$ cd /app/cwp/42.11
+$ gzcat /home/rhb/Downloads/cwp_su_all_42R11.tgz | tar xf -
+$ CWPROOT=`pwd`
+$ export CWPROOT
+$ alias make=gmake
+</source>
+
+Edit Makefile.config. This is an example, you may wish to choose other settings:
+
+<source>
+SHELL = /bin/sh
+ROOT = $(CWPROOT)
+ENDIANFLAG = -DCWP_LITTLE_ENDIAN
+LARGE_FILE_FLAG = -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE
+LINEHDRFLAG = -DSU_LINE_HEADER 
+OPTC = -g  -DSUN -D__EXTENSIONS__
+POSTLFLAGS = -L/usr/ccs/lib -lgen
+include $(CWPROOT)/src/Rules/gnumake.rules
+CC = cc
+CFLAGS = -I$I $(OPTC) $(LARGE_FILE_FLAG) $(ENDIANFLAG) $(XDRFLAG) $(LINEHDRFLAG)
+C++ = c++
+C++FLAGS = -I$I $(OPTC) $(LARGE_FILE_FLAG) $(ENDIANFLAG) $(XDRFLAG)
+LD_LIBRARY_PATH += $(CWPROOT)/lib:/usr/dt/lib
+LD_LIBRARY_PATH += $(CWPROOT)/lib:/usr/openwin/lib
+AR = ar
+ARFLAGS = rv
+RANLIB = ranlib
+RANFLAGS = 
+ICHMODLINE = chmod 664 $@
+MCHMODLINE = chmod 775 $@
+CPP = /lib/cpp
+CPP = /usr/ccs/lib/cpp
+OPTF = -g
+FC = f77
+include $(CWPROOT)/src/Rules/abbrev.rules
+IX11 = /usr/openwin/include
+LX11 = /usr/openwin/lib
+IMOTIF = /usr/dt/include
+LMOTIF = /usr/dt/lib
+include $(CWPROOT)/src/Rules/cflags.rules
+include $(CWPROOT)/src/Rules/suffix.rules
+include $(CWPROOT)/src/Rules/misc.rules\
+</source>
+
+Then install the components you want:
+
+<source>
+$ make install 
+$ make xtinstall 
+$ make finstall  
+$ make mglinstall 
+$ make utils     
+$ make xminstall
+</source>
+
+==v · d · e Seismic Unix install==
+===Platform	==
+
+    Linux (Ubuntu, Archlinux) Mac OS X Solaris Windows
+
+Categories: Installation | Solaris
+
+    Log in
+
+    Page
+    Discussion
+
+    Read
+    View source
+    View history
+
+Navigation
+
+    Main page
+    Community portal
+    Developers portal
+    Recent changes
+
+User support
+
+    Official documentation
+    How to install
+    List of programs
+    The guide
+
+Toolbox
+
+    What links here
+    Related changes
+    Special pages
+    Printable version
+    Permanent link
+
+    This page was last modified on 24 November 2011, at 20:32.
+    This page has been accessed 1,438 times.
+    Most content is available under Creative Commons Attribution Share Alike, Some Restrictions Apply.

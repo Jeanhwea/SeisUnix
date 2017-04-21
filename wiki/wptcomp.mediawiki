@@ -1,0 +1,14 @@
+== WPTCOMP - Compression by Wavelet Packet Compression        ==            
+                                                                        
+:: <source> wptcomp < stdin n1= n2=   [optional parameter] > sdtout            </source>  
+                                                                        
+ Required Parameters:                                                   
+::<source> n1=                    number of samples in the fast (first) dimension </source>
+::<source> n2=                    number of samples in the slow (second) dimension </source>
+                                                                        
+ Optional Parameters:                                                   
+::<source> nfilter1=11            number of filters in direction 1                 </source>
+::<source> nfilter2=11            number of filters in direction 2                 </source>
+::<source> nstage1=               filter stages (automatically set based on n1)    </source>
+::<source> nstage2=               filter stages (automatically set based on n2)    </source>
+::<source> error=0.01             acceptable error           </source>

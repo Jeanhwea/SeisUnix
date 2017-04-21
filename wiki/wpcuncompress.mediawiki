@@ -1,0 +1,18 @@
+== WPCUNCOMPRESS --- UNCOMPRESS a 2D section   ==                           
+    
+Usage:
+                                                                   
+::<source> wpc1uncompress < stdin > stdout    </source>                                    
+                                                                       
+ Required Parameters:                                                  
+                                                                       
+ Optional Parameters:                                                  
+                                                                       
+ Notes:                                                                
+::  No parameter is required for this program. All the information for    
+::  uncompression has been encoded in the header of the compressed data.  
+                                                                        
+ Caveats:                                                               
+::  For the current implementation, the compressed data themselves are    
+::  NOT portable, i.e., the data compressed on one platform might not be  
+::  recognizable on another.                   

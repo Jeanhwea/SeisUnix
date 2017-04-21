@@ -1,0 +1,134 @@
+==Seismic Unix install on Windows==
+
+This page is intended to be a generic workflow for how to manually install Seismic Unix from Source on Windows using Cygiwn. Cygwin (www.cygwin.com) is a pseudo Linux/Unix environment that runs on Windows. These steps, however, should be improved because some mistakes on details may be present.
+
+==How to install Cygwin==
+
+You have to click here and download the setup.exe file. After running it, follow these steps:
+ 
+Use the default options (so, keep pressing "Next") until you have to choose the cygwin mirror. You may prefer download first the whole package and then install it.
+
+Installing from internet may not work well because it may crash and you will have to start everything from the beginning. Normally, the OSU or CYGWINs mirrors work well, however, this might be a trial-and-error approach. After choosing the one you prefer, you will have to choose among the packages to be installed.
+
+One option is to set "Install" (double click). However, in order to have all the packages at once (which it is the idea) and avoid problems after the installation, it is recommended that you will open every cross in every tree and double-click every package to get the current version (represented by the number version).
+  
+Be aware of the word "Skip", that should not be there, i.e., always look for the number.  This is the more relevant and dumbest part of the installation, normally it takes around 10 to 15 minutes to have everything without the "Skip" word. 
+
+Take especial attention to the dev, lib and X11 packages. You also may want to unclick where it says "obsolete packages". After installing all the packages, i.e. when you receive the message "Installation complete", the Cygwin icons should appear in your desktop. If not, launch "/Start/All Programs" and look for "Cygwin".There are three icons that are normally the most important ones: "Cygwin bash" (black icon), "X-Cygwin" (white icon), "Cygwin terminal" (white icon).
+    
+The last one is similar to the "Linux terminal", but however, it can only be lanched after running the "X-Cygwin" icon, which will start the X11 packages.
+
+After launching it, you will be able to use any graphic command, such as suximage, in both the "Cygwin bash" and the "Cygwin terminal".
+   
+ 
+Now, you can run "cygcheck -c > installed.packages.log" (without " ") to see what packages are installed. That will give you an idea also about the compatibility with softwares to be installed (i.e., SU, GMT, etc). Besides, one good trick is to see how big is the directory where cygwin was installed (normally C:/cygwin/).
+   
+Around 2GB may be an indicative that you did not miss any packages and will not have problems installing SU, or whatever you want to install on your shiny new Cygwin.
+You have to copy the .bash files to your home directory.
+
+For this, go to your home directory with: "cd" (without " "), and then "cp /etc/dev/etc/skel/.bash* ." (without " "). 
+
+==How to get SU==
+
+You can download the latest version of the source code from The CWP Website or type in a terminal window:
+
+<source> wget ftp://ftp.cwp.mines.edu/pub/cwpcodes/cwp_su_all_43R1.tgz </source>
+
+
+== Prepping==
+
+===Untar===
+
+You need to select where you want to install SU. In cygwin there are no restrictions about installing SU in /usr/local/ as it occurs in any Linux/Unix distribution for instance (i.e. you do not have to be the SU root).
+
+<source> tar -xvf cwp_su_all_43R1.tgz -C /usr/local/su43R1 </source>
+
+
+===Setting Environment Variables===
+
+These Instructions are specific to bash, if your a csh or tsh guy some modification might be needed.
+CWPROOT
+
+$CWPROOT needs to be set to the directory where you untarred the code.
+
+<source> export CWPROOT=/usr/local/su43R1 </source>
+
+===PATH===
+
+You need to add $CWPROOT/bin to your systems working shell path.
+
+<source> export PATH=$PATH:$CWPROOT/bin </source>
+
+===.bashrc===
+
+Adding the above variables to .bashrc should allow you to actually use Seismic Unix next time you start a console window. Think of it like adding it to the startup routine.
+
+<source> echo "export CWPROOT=/usr/local/su43R1" >> ~/.bashrc </source>
+<source> echo "export PATH=$PATH:$CWPROOT/bin" >> ~/.bashrc </source>
+
+
+==Modifying the Makefile==
+
+You have to uncomment every line in the Makefile.config that says CYGWIN. Depending on your machine, 32- or 64-bit flags should uncommented/commented. Using any editor, you can easily search for that word and go through the entire file. For instance, using the "vi" editor (also in cygwin), you should type simply "/cygwin" (without " "). Once you find the first word, press "*" (without " ") and you will jump to the next cygwin word.
+
+
+==Compiling==
+
+The Main Install Requirements.
+
+<source> cd $CWPROOT/src </source>
+<source> make install</source>
+<source> make xtinstall</source>
+<source> make finstall </source>
+<source> make mglinstall</source>
+<source> make utils</source>
+<source> make xminstall</source>
+<source> make sfinstall</source>
+
+
+Testing the install
+
+<source> suplane | suximage title="My First Plot"</source>
+
+v · d · e Seismic Unix install
+
+==Platform	==
+
+===    Linux (Ubuntu, Archlinux) Mac OS X Solaris Windows===
+
+Categories: Installation | Windows
+
+    Log in
+
+    Page
+    Discussion
+
+    Read
+    View source
+    View history
+
+Navigation
+
+    Main page
+    Community portal
+    Developers portal
+    Recent changes
+
+User support
+
+    Official documentation
+    How to install
+    List of programs
+    The guide
+
+Toolbox
+
+    What links here
+    Related changes
+    Special pages
+    Printable version
+    Permanent link
+
+    This page was last modified on 30 April 2012, at 02:39.
+    This page has been accessed 9,178 times.
+    Most content is available under Creative Commons Attribution Share Alike, Some Restrictions Apply.

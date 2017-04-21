@@ -1,0 +1,11 @@
+==SUPACK2 - pack segy trace data into 2 byte shorts		==
+	
+Usage:							
+<source> supack2 <segy_file >packed_file	gpow=0.5 		</source>
+
+								
+Required parameters:						
+	none	
+
+Optional parameter: 						
+<source>	gpow=0.5	exponent used to compress the dynamic	range of the traces <source>

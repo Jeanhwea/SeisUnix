@@ -1,0 +1,801 @@
+[[Return to the Main Page|https://github.com/JohnWStockwellJr/SeisUnix/wiki]]
+
+Seismic Unix has programs for performing many of the operations of geophysical signal processing. It is possible to use it to manipulate and create your own seismograms, and also to convert them between the SU standard file and the industry standard [http://walter.kessinger.com/work/segy.html SEG Y]. Here you can find a list of the programs that the SU package has, with a brief description and a link to its help page.
+
+== Data type conversion ==
+
+Some of the most common tasks that that the researcher or processor has to perform is the conversion of 
+one data type into another.  Many operations are simply the conversion of ascii to binary and vice versa,
+but others involve specialized seismic data types  (SEG-B, SEG-D, and SEGY-Y) to other forms. The
+internal format of the SU package is derived from the SEGY type.  
+=== Binary and ASCII Data Type Conversion ===
+
+The following codes are for the conversion and manipulation of binary or ASCII data.
+
+==== Floats ====
+* [[a2b]] ''convert ASCII floats to binary''
+* [[b2a]] ''convert binary floats to ASCII''
+
+==== Integers ====
+* [[a2i]] ''convert ASCII ints to binary''
+* [[i2a]] ''convert binary ints to ASCII''
+
+=== Float to IBM tape, IBM tape to float ===
+* [[float2ibm]] ''convert native binary floats to IBM tape floats''
+* [[ibm2float]] ''convert IBM tape floats to native binary floats''
+
+=== Fortran to C binary floats, C to fortran binary floats ===
+
+* [[ftnstrip]] ''convert a file of binary data plus record delimiters created via Fortran to a file containing only binary values (as created via C) ''
+* [[ftnunstrip]] ''convert C binary floats to Fortran style floats ''
+
+=== Hexadecimal floats to binary (for extracting data from PostScript images) ===
+
+* [[h2b]] ''convert 8 bit hexidecimal floats to binary''
+
+=== Binary-to-binary conversion of ints, floats, longs, shorts, chars, doubles ===
+* [[recast]] ''recast data type, i.e., convert from one data type to another''
+
+== Manipulation of binary data ==
+
+===Resampling===
+* [[resamp]] ''Resample the 1st dimension of a 2-dimensional function f(x<sub>1</sub>,x<sub>2</sub>)''
+* [[unisam]] ''Uniformly sample a 1-D function y(x) specified as (x,y)-pairs''
+* [[unisam2]] ''Uniformly sample a 2-D function f(x<sub>1</sub>,x<sub>2</sub>) ''
+
+=== Subsampling ===
+* [[subset]] ''Select a subset of the samples from a 3-dimensional dataset''
+
+=== Reformatting ===
+* [[xy2z]] ''Convert (x,y)-pairs to spike z-values on a uniform grid''
+* [[z2xyz]] ''Convert binary floats representing z-values to ASCII form in (x,y,z)-ordered triples''
+* [[regrid3]] ''Rewrite a n<sub>i,3</sub> {{times}} n<sub>i,2</sub> {{times}} n<sub>i,1</sub> grid to a n<sub>o,3</sub> {{times}} n<sub>o,2</sub> {{times}} n<sub>o,1</sub> 3-D grid''
+
+=== File Arithmetic  ===
+* [[farith]] ''Perform simple arithmetic with binary files''
+
+=== Transposing  ===
+* [[transp]] ''Transpose an n<sub>1</sub> {{times}} n<sub>2</sub> element matrix''
+
+=== Byte swapping a binary file ===
+It is not uncommon for there to be issues of transporting data from high byte (big endian) to low byte (little endian) platforms.
+* [[swapbytes]] ''Swap the bytes of various data types''
+
+= File Statistical Parameters =
+== Entropy of a binary file ==
+;entropy of a binary data set
+: [[entropy]] ''compute the ENTROPY of a signal''
+==  Central Probability Density Function ==
+: [[cpftrend]] ''generate picks of the Cumulate Probability Function''
+
+== Probability Density Function ==
+: [[pdfhistogram]] ''generate a HISTOGRAM of the Probability Density function''
+
+
+
+
+
+
+
+== Multiresolution analysis of a binary file ==
+;Multiresolution analysis by Wavelet transform
+: [[mrafxzwt]] ''Multi-Resolution Analysis of a function F(X,Z) by Wavelet Transform''
+
+= Building Binary Files for Velocity Models, etc. =
+== Stiffnesses to Velocities and vice versa ==
+
+=== Stiffnesses to Velocities ===
+;Stiffnesses to Velocites and Thomsen Paramters 
+: [[stiff2vel]] ''Transforms 2D elastic stiffnesses to (vp,vs,epsilon,delta)''
+
+=== Velocity to Stiffness ===
+: [[vel2stiff]] ''Transforms VELocities, densities, and Thomsen or Sayers parameters to elastic STIFFnesses ''
+
+=== HTI Elastic Parameters to Stiffnesses ===
+: [[hti2stiff]] ''convert HTI parameters alpha, beta, d(V), e(V), gamma	into stiffness tensor''
+
+=== Thomsen Paramters to HTI ===
+: [[Thom2hti]] 'Convert Thompson parameters V_p0, V_s0, eps, gamma, to the HTI parameters alpha, beta, epsilon(V), delta(V), gamma ''
+
+=== Thomsen Paramters to Stiffnesses ===
+: [[thom2stiff]] '' Convert Thompson parameters V_p0, V_s0, eps, gamma,	to the HTI parameters alpha, beta, epsilon(V), delta(V), gamma''
+
+
+== Velocity Model building ==
+=== Uniformly sampled  velocities ===
+;Simple profile with a lens 
+: [[makevel]] ''MAKE a VELocity function v(x,y,z)''
+
+=== Uniformly Sampled velocity v(z,x) ===
+: [[unif2]] ''generate a 2-D UNIFormly sampled velocity profile from a layered model. In each layer, velocity is a linear function of position.''
+
+
+=== Uniformly Sampled profile of an elastic parameter profile: Stiffnesses(z,x) ===
+: [[unif2aniso]] ''generate a 2-D UNIFormly sampled profile of elastic constants from a layered model.''
+
+== Add Random Velocity Layer ==
+;Add a random Velocity layer (RVL)
+: [[randvel3d]] ''Add a random velocity layer (RVL) to a gridded v(x,y,z) velocity model''
+
+
+
+
+== Special profiles ==
+=== Cellular Automata Generated ===
+: [[cellauto]] ''Two-dimensional CELLular AUTOmata ''
+
+
+
+= Miscellaneous Binary File Tools =
+
+== Fast Concatenation ==
+;Fast concatenation of files
+: [[fcat]] ''fast cat with 1 read per file ''
+
+
+= Synthetics, Test patterns, and Waveforms =
+
+== Add Noise and shifts ==
+;Add noise and shifts
+: [[suaddnoise]] ''add noise to traces''
+: [[sujitter]] ''Add random time shifts to seismic traces''
+: [[suaddstatics]] ''ADD random STATICS on seismic data''
+
+== Waveforms ==
+: [[suvibro]] ''Generates a Vibroseis sweep (linear, linear-segment, dB per octave, dB per hertz, T-power)''
+: [[suwaveform]] ''generate a seismic wavelet ''
+: [[sudgwaveform]] ''make Gaussian derivative waveform in SU format''
+
+== Test Patterns ==
+
+=== Empty (zero value) traces ==
+;Blank Traces
+: [[sunull]] ''create null (all zeroes) traces''
+
+=== Spike (point), Line, and Moveout Events ===
+;Linear events
+: [[suplane]] ''create common offset data file with up to 3 planes''
+;Linear and hyperbolic moveout events
+: [[suaddevent]] ''add a linear or hyperbolic moveout event to seismic data''
+;Spike events
+: [[suplane]] ''create common offset data file with up to 3 planes''
+;Spike events with non-hyperbolic moveouts
+: [[sunhmospike]] ''generates SPIKE test data set with a choice of several Non-Hyperbolic MOveouts''
+;Random Spike events
+: [[surandspike]] ''make a small data set of RANDom SPIKEs''
+
+== Synthetics 1D ==
+
+
+=== Goupillaud Modeling ===
+;Goupillaud -- full impulse response
+: [[sugoupillaud]] ''calculate 1D impulse response of non-absorbing Goupillaud medium''
+;Primaries Only
+: [[sugoupillaudpo]] ''calculate Primaries-Only impulse response of a lossless GOUPILLAUD medium for plane waves at normal incidence''
+
+=== Finite Difference ===
+;First Order, One Dimensional, Acoustic
+: [[sufdmod1]] ''Finite difference modelling (1-D 1rst order) for the acoustic wave equation''
+
+== Synthetics 2D ==
+
+== Finite Difference ==
+: [[sufdmod2]] ''Finite-Difference MODeling (2nd order) for acoustic wave equation''
+
+== Single Point Scatterer by the Born Modeling Formula ==
+;Impulse 2D by the Born Modeling Formula
+: [[suimp2d]] ''generate shot records for a line scatterer embedded in three dimensions using the Born integral equation''
+
+== Synthetics 3D ==
+
+== Single Point Scatterer by the Born Modeling Formula ==
+;Impulse 3D
+: [[suimp3d]] ''generate inplane shot records for a point scatterer embedded in three dimensions using	the Born integral'' equation
+
+
+
+= SEGY and SU Data Type Conversion =
+
+The most commonly used data exchange format is the SEG-Y (SEGY) data format. Tools for reading
+and writing SEGY data allow the user to convert data in this format to the SU format. Some
+data that are advertised as being "SEG-Y" are not that format at all, but may require careful
+choice of parameters to read into the SU format.
+
+== SEGY to SU, SU to SEGY format conversions ==
+=== Read an SEGY tape (file) into SU ===
+;SEGY to type SU
+: [[segyread]] ''read an SEG-Y tape''
+
+=== Write a SEGY tape (file) from SU ===
+;SU to SEGY
+: [[segywrite]] ''write an SEG-Y tape''
+
+=== Header Tools for Segyread and Segywrite ===
+;Header tools associated with segyread and segywrite
+: [[segyhdrs]] ''make SEG-Y ascii and binary headers for segywrite'' 
+: [[segyclean]] ''zero out unassigned portion of header''
+: [[bhedtopar]] ''convert a Binary tape HEaDer file to PAR file format''
+: [[setbhed]] ''SET the fields in a SEGY Binary tape HEaDer file, as would be produced by segyread and segyhdrs''
+: [[segyhdrmod]] ''replace the text header on a SEGY file''
+
+=== Swap the bytes of SU headers and data ===
+
+=== Byte Swap Reel Headers ===
+;Byte swapping (headers)
+: [[swapbhed]] ''SWAP the BYTES in a SEGY Binary tape HEaDer file''
+
+==== Byte Swap SU files ====
+;Byte swapping (SU data)
+: [[suswapbytes]] ''SWAP the BYTES in SU data to convert data from big endian to little endian byte order, and vice versa''
+
+=== Dump SU file to ASCII ===
+;SU to ascii
+: [[suascii]] ''print non zero header values and data in various formats''
+
+=== Old SU to new SU XDR format ===
+If you have switched to using the SUXDR format but have SU files in the old format then this tool lest you convert
+files in the old format to the new format.
+;Old SU to new SU XDR format
+: [[suoldtonew]] ''convert existing su data to xdr format''
+
+== SEG D, SEG B, and Sensors and Software DT1 (GPR)  ==
+The SEG-D and SEG-B formats are common acquisition formats for seismic data.
+
+=== Read SEGD data into SU ===
+;SEG D to SU
+: [[segdread]] ''read an SEG-D tape''
+
+=== Read SEGB data into SU ===
+;SEG B to SU
+: [[segbread]] ''read an SEG-B tape (untested, possibly needs fixing)''
+
+=== Sensors and Software DT1 format to SU ===
+;Sensors and Software X.DT1 to SU (ground penetrating radar)
+: [[dt1tosu]] ''Convert ground-penetrating radar data in the Sensors & Software X.dt1 GPR format to SU format.''
+
+= Editing, Sorting and Header Manipulation =
+The SU data format is based on the SEGY header field structure. The fields of the trace headers, called "header words" in SU are identified by "key words".
+
+== View Header Words ==
+;View the header words and header types
+: [[sukeyword]] ''guide to SU keywords in segy.h''
+
+== Set, Change, View Header Values ==
+
+; Set Header Words
+: [[suaddhead]] ''put headers on bare traces and set the tracl and ns fields''
+: [[sushw]] ''Set one or more Header Words using trace number, mod and integer divide to compute the header word values or input the header word values from a file''
+: [[sulhead]] ''Load information from an ascii column file into HEADERS''
+
+== Compute and Set Header Fields ==
+
+;Compute and set specific header fields
+: [[suabshw]] ''Replace header key word by its absolute value''
+: [[suahw]] ''Assign Header Word using another header word''
+: [[suazimuth]] ''Compute trace AZIMUTH given the sx,sy,gx,gy header fields and set a user-specified header field to this value''
+: [[suchw]] ''Change Header Word using one or two header word fields''
+: [[sucliphead]] ''Clip header values''
+: [[suhtmath]] ''do unary arithmetic operation on segy traces with headers values''
+: [[sulcthw]] ''Linear Coordinate Transformation of Header Words''
+: [[surandhw]] ''set header word to random variable ''
+: [[susehw]] ''Set the value the Header Word denoting trace number within an Ensemble defined by the value of another header word''
+
+== Remove or Restore Trace Headers ==
+;Remove and restore (cut and paste) trace headers
+: [[sustrip]] ''remove the SEGY headers from the traces''
+: [[supaste]] ''paste existing SU headers on existing binary data''
+
+== View Header Fields and Trace Count
+;View header Word Values and trace count
+: [[sugethw]] ''Sugethw writes the values of the selected key words''
+: [[sucountkey]] ''COUNT the number of unique values for a given KEYword.''
+: [[sukeycount]] ''sukeycount writes a count of a selected key''
+: [[sudumptrace]] ''print selected header values and data. Print first num traces. Use SUWIND to skip traces. 
+: [[surange]] ''get max and min values for non-zero header entries''
+: [[sutrcount]] ''SU program to count the TRaces in infile''
+
+== View and Edit Trace Header Values ==
+;View and edit header word values
+: [[suedit]] ''examine segy diskfiles and edit headers''
+: [[sutab]] ''print non zero header values and data for non-graphic terminals''
+: [[suxedit]] ''examine segy diskfiles and edit headers (X windows graphics)''
+
+== UTM Projection and Latitude and Logitude in Headers ==
+
+;UTM projection of latitude and longitude
+: [[suutm]] ''UTM projection of longitude and latitude in SU trace headers''
+
+== Binning ==
+;Binning
+: [[sucdpbin]] ''Compute CDP bin number''
+
+== Stacking charts ==
+;Header value charts (stacking and shooting)
+: [[suchart]] ''prepare data for x vs. y plot''
+: [[su3dchart]] ''plot x-midpoints vs. y-midpoints for 3-D data''
+
+= Sorting and Windowing SU Data =
+
+An important part of seismic data processing is producing ensembles, also known as
+''gathers''. These gathers are produced by first sorting the data into ensembles sharing the same
+identifying keyword.
+
+== Sorting ==
+=== Sort Data by Header Field Values ===
+;Sort data by header field
+: [[susort]] ''sort on any segy header keywords''
+
+=== Model Data to view Sorting Geometry ===
+;Modeling to view sorting geometry
+: [[susorty]] ''make a small 2-D common shot off-end data set in which the data show geometry values to help visualize data sorting''
+
+== Windowing ==
+: [[suwind]] ''window traces by key word''
+: [[suwindpoly]] ''WINDow data to extract traces on or within a respective POLYgonal line or POLYgon with coordinates specified by header keyword values''
+: [[susplit]] ''Split traces into different output files by keyword value''
+
+= SU file operations =
+
+== Operations on a Single File ==
+;Arithmetic and other simple operations on traces
+: [[suop]] ''do unary arithmetic operation on segys''
+;Flip
+: [[suflip]] ''flip a data set in various ways''
+;Permute
+: [[supermute]] ''permute or transpose a 3d datacube''
+;Reciprocal summing of traces within a file
+: [[surecip]] ''sum opposing offsets in prepared data''
+: [[recip]] ''sum opposing (reciprocal) offsets in cdp sorted data''
+
+
+== Operations on a pair of files ==
+;Arithmetic and other simple operation between traces in two files
+: [[suop2]] ''do a binary operation on two data sets''
+: [[sucmp]] ''CoMPare two seismic data sets, returns 0 to the shell if the same and 1 if different''
+: [[sudiff]],[[susum]],[[suprod]],[[suquo]] ''difference, sum, product, quotient of two SU data sets via suop2''
+: [[maxdiff]] ''find absolute maximum difference in two segy data sets''
+
+
+= Amplitudes =
+
+== Geometrical Spreading Correction ==
+;Divergence correction V(t) model
+: [[sudivcor]] ''Divergence (spreading) correction''
+== Dip Dependent Spreading Correction
+: [[sudipdivcor]] ''Dip-dependent Divergence (spreading) correction''
+
+== Gaining and Normalization ==
+;Gaining, normalization
+: [[suagc]] ''perform agc on SU data ''
+: [[sugain]] ''apply various types of gain''
+: [[sunormalize]] ''Trace balancing by rms, max, or median''
+: [[supgc]] '' Programmed Gain Control--apply agc like function	but the same function to all traces preserving relative amplitudes spatially.''
+: [[suweight]] ''weight traces by header parameter, such as offset''
+: [[unglitch]] ''clip outliers in data''
+
+
+== Zeroing, NaN removal ==
+;NaN removal
+: [[sunan]] ''remove NaNs & Infs from the input stream''
+;Zeroing
+: [[sukill]] ''zero out traces''
+: [[suzero]] ''zero-out (or set constant) data within a time window''
+
+== Byte swapping ==
+: [[suswapbytes]] ''Swap the bytes in SU data to convert data from big endian to little endian byte order, and vice versa''
+
+== Trace Attributes and Statistical Parameters ==
+;Traditional instantaneous amplitude, phase frequency, and more
+: [[suattributes]] ''instantaneous trace ATTRIBUTES''
+: [[suenv]] ''Instantaneous amplitude, frequency, and phase via: suattributes''
+;Maximum (minimum) values
+: [[sumax]] ''get trace by trace local/global maxima, minima, or absolute maximum''
+;Mean Values
+: [[sumean]] ''get the mean values of data traces''
+;Histogram
+: [[suhistogram]] ''create histogram of input amplitudes''
+;Quantile
+: [[suquantile]] ''display some quantiles or ranks of a data set''
+
+
+
+
+= Convolution, Correlation, Deconvolution, and Shaping =
+
+== Correlation ==
+
+=== Auto Correlation ===
+;Autocorrelation
+: [[suacor]] ''auto-correlation''
+: [[suacorfrac]] ''general FRACtional Auto-CORrelation/convolution''
+
+=== Cross Correlation ===
+;Cross correlation
+: [[suxcor]] ''correlation with user-supplied filter''
+
+== Convolution ==
+
+=== Convolution (in the Time domain) ===
+;Convolution
+: [[suconv]] ''convolution with user-supplied filter''
+
+=== Refraction Convolution Section (RCS) ===
+;Refraction Convolution Section (RCS) Dereck Palmer's refraction process
+: [[surefcon]] ''Convolution of user-supplied Forward and Reverse refraction shots using XY trace offset in reverse shot''
+
+
+== Deconvolution ==
+
+=== Deconvolution by Complex Division in the Frequency Domain ===
+;Deconvolution by complex division
+: [[sucddecon]] ''DECONvolution with user-supplied filter by straightforward Complex Division in the frequency domain ''
+
+=== Minimum Phase (Wiener) Decon ===
+;Wiener filtering
+: [[supef]] ''Wiener predictive error filtering''
+: [[suphidecon]] ''PHase Inversion Deconvolution''
+
+=== FX Decon ===
+;FX decon
+: [[sufxdecon]] ''random noise attenuation by FX-DECONvolution''
+
+=== Wavelet Shaping ===
+: [[sushape]] ''Wiener shaping filter''
+
+= Stretching, Moveouot, Interpolation, Mixing, Resampling, Tapering =
+
+== Log Stretch ==
+;Forward and Inverse Log Streatch
+: [[sulog]] ''time axis log-stretch of seismic traces''
+: [[suilog]] ''time axis inverse log-stretch of seismic traces''
+
+== T squared and Velocity Reduction ==
+: [[sutsq]] ''time axis time-squared stretch of seismic traces''
+: [[sureduce]] ''convert traces to display in reduced time''
+
+
+== Trace Interpolation and Extrapolation ==
+
+=== Trace Interpolation ===
+;Trace interpolation
+: [[suinterp]] ''interpolate traces using automatic event picking''
+: [[suinterpfowler]] ''interpolate output image from constant velocity panels built by SUTIFOWLER or CVS''
+
+=== Extrapolation ===
+;Smaller Offset Extrapolation 
+: [[suocext]] ''smaller Offset EXTrapolation via Offset Continuation method for common-offset gathers ''
+
+
+== Trace Mixing ==
+;Trace mixing
+: [[sumix]] '' compute weighted moving average (trace MIX) on a panel of seismic data''
+: [[sumixgathers]] ''mix two gathers''
+
+== Resampling ==
+;Resampling
+: [[suresamp]] ''Resample in time''
+: [[sucentsamp]] ''CENTRoid SAMPle seismic traces''
+
+== Tapering ==
+;Tapering
+: [[sutaper]] ''Taper the edge traces of a data panel to zero''
+: [[sutxtaper]] ''Taper in (X,T) the edges of a data panel to zero''
+: [[suramp]] ''Linearly taper the start and/or end of traces to zero''
+
+= Filtering =
+
+== One-dimensional filtering ==
+
+=== Band Pass ===
+;Bandpass (polygonal)
+: [[suband]] ''Trapezoid-like Sin squared tapered Bandpass filter via  SUFILTER''
+
+;Bandpass (Butterworth)
+: [[subfilt]] ''apply Butterworth bandpass filter''
+
+=== High Pass, Low Pass, Band --- Pass and Reject
+;High Pass, Low Pass, Band Pass
+: [[sufilter]] ''applies a zero-phase, sine-squared tapered filter''
+
+
+=== Time Varying ===
+;Time varying bandpass
+: [[sutvband]] ''time-variant bandpass filter (sine-squared taper)''
+
+=== Fractional Derivatives and Integrals ===
+;Fractional derivatives and integrals (in time) of seismic traces
+: [[sufrac]] ''take general (fractional) time derivative or integral of data, plus a phase shift.  Input is TIME DOMAIN data''
+
+
+==Two-dimensional filtering==
+
+=== Dip Filtering ===
+;Dip (slope) Filter
+: [[sudipfilt]] ''DIP--or better--SLOPE Filter in f-k domain''
+
+=== K1 - K2 domain ===
+;K1-K2 filter (rectangular)
+: [[suk1k2filter]] ''symmetric box-like K-domain filter defined by the cartesian product of two sin^2-tapered polygonal filters defined in k1 and k2''
+;Circular
+: [[sukfilter]] ''radially symmetric K-domain, sin^2-tapered, polygonal filter''
+
+=== Fractional 2D Derivatives and Integrals ===
+;Fractional 2D derivatives
+: [[sukfrac]] ''apply FRACtional powers of i|k| to data, with phase shift''
+
+
+=== Median ===
+;Median
+: [[sumedian]] ''MEDIAN filter about a user-defined polygonal curve with the distance along the curve specified by key header word''
+
+=== Muting ===
+;Muting
+: [[sumute]] ''mute above (or below) a user-defined polygonal curve with the distance along the curve specified by key header word''
+
+
+= NMO and Stack =
+
+== Normal Moveout ==
+: [[sunmo]] ''NMO for an arbitrary velocity function of time and CDP''
+
+== Stacking ==
+
+=== Standard Stacking ===
+: [[sustack]] ''stack adjacent traces having the same key header word''
+
+=== Phase Weighted Stack ===
+: [[supws]] ''Phase stack or phase-weighted stack (PWS) of adjacent traces having the same key header word''
+
+= Dip Moveout =
+
+== FK ==
+=== Standard (Log Stretch) ===
+: [[sudmofk]] ''DMO via F-K domain (log-stretch) method for common-offset gathers ''
+
+=== Converted Wave (Log Stretch) ===
+: [[sudmofkcw]] ''converted-wave DMO via F-K domain (log-stretch) method for common-offset gathers''
+
+== Kirchhoff (T-X) domain ==
+: [[sudmotx]] ''DMO via T-X domain (Kirchhoff) method for common-offset gathers ''
+: [[sudmovz]] ''DMO for V(Z) media for common-offset gathers''
+
+=== Transversely Isotropic media ==
+: [[sudmotivz]] ''DMO for Transeversely Isotropic V(Z) media for common-offset gathers''
+
+
+== Hale DMO ==
+
+== Transversely Isotropic media ==
+: [[sutihaledmo]] ''TI Hale Dip MoveOut (based on Hale's PhD thesis)''
+
+= Migration and Inversion ("Inversion" here means Amplitude Preserving Migration) =
+
+
+== Post Stack Migration ==
+
+=== F,K (Stolt) v(t) migration  ===
+: [[sustolt]] ''Stolt migration for stacked data or common-offset gathers''
+
+=== Gazdag, Phase shift ===
+;Gazdag with Q
+: [[sugazmig]] ''SU version of Jeno GAZDAG's phase-shift migration for zero-offset data, with attenuation Q.''
+
+=== Phase shift with turning rays ===
+;Phase shift with turning rays
+: [[sumigps]] ''MIGration by Phase Shift with turning rays''
+
+
+=== Phase Shift Plus Interpolation (PSPI) ===
+;PSPI migration
+: [[sumigpspi]] ''Gazdag's phase-shift plus interpolation depth migration for zero-offset data, which can handle the lateral velocity variation.  ''
+
+=== Split Step ===
+;Split Step
+: [[sumigsplit]] ''Spit-Step Migration''
+
+=== Finite Difference ===
+;Finite Difference
+: [[sumigfd]] ''45-90 degree Finite difference depth migration for zero-offset data.''
+
+;Fourier Finite Difference
+: [[sumigffd]] ''Fourier finite difference depth migration for zero-offset data. This method is a hybrid migration which combines the advantages of phase shift and finite difference migrations.''
+
+
+=== Gaussian Beam ===
+;Gaussian Beam 
+: [[sumiggbzo]] ''MIGration via Gaussian Beams of Zero-Offset SU data''
+
+=== T,K ===
+;T-K domain
+: [[sumigtk]] '' MIGration via T-K domain method for common-midpoint stacked data''
+
+
+
+
+
+=== Anisotropic ===
+
+=== Gaussian Beam ===
+: [[sumiggbzo]]
+: [[sumiggbzoan]] ''MIGration via Gaussian beams ANisotropic media (P-wave)''
+
+=== TI media, Phase Shift, Turning Rays
+: [[sumigpsti]] ''MIGration by Phase Shift for TI media with turning rays''
+' ''
+
+== PreStack Migration ==
+
+=== Finite Difference ===
+: [[sumigprefd]] ''The 2-D prestack common-shot 45-90 degree finite-difference depth migration.''
+
+=== Fourier Finite Difference ===
+: [[sumigpreffd]] ''The 2-D prestack common-shot Fourier finite-difference depth  migration.''
+
+=== Phase Shift Plus Interpolation ===
+: [[sumigpreffd]] ''The 2-D PREstack commom-shot Phase-Shift-Plus interpolation depth MIGration.''
+
+=== Split Step ===
+: [[sumigpresp]] ''The 2-D prestack common-shot split-step Fourier migration ''
+
+=== VTI media Constant Velocity ===
+: [[sutifowler]] ''VTI constant velocity prestack time migration velocity analysis via Fowler's method ''
+
+=== Kirchhoff ===
+
+==== Depth ====
+;Depth
+: [[sukdmig2d]] ''Kirchhoff Depth Migration of 2D poststack/prestack data''
+
+==== Time ===
+;Time
+: [[suktmig2d]] ''prestack time migration of a common-offset section with the double-square root (DSR) operator''
+
+
+= Transforms =
+
+== Fourier ==
+
+=== 1D ===
+;Computes amplitude, phase, real part, or imaginary part from complex data
+: [[suamp]] ''output amp, phase, real or imag trace from domain data''
+: [[sufft]] ''fft real time traces to complex frequency traces''
+: [[suifft]] ''fft complex frequency traces to real time traces''
+: [[suspecfx]] ''Fourier SPECtrum (T -> F) of traces  ''
+
+
+=== 2D ===
+
+: [[suspecfk]] ''F-K Fourier SPECtrum of data set''
+: [[suspecfx]] ''Fourier SPECtrum (T -> F) of traces''
+: [[suspeck1k2]] ''2D (K1,K2) Fourier SPECtrum of (x1,x2) data set''
+
+== Hilbert Transform ==
+;Hilbert transform
+: [[suhilb]] ''Hilbert transform''
+
+== Radon Transform ==
+;Radon
+: [[suradon]] ''compute forward or reverse Radon transform or remove multiples by using the parabolic Radon transform to estimate multiples and subtract''
+: [[sutaup]] ''forward and inverse T-X and F-K global slant stacks''
+: [[suharlan]] ''signal-noise separation by the invertible linear transformation method of Harlan''
+
+== Gabor Transform ==
+;Gabor
+: [[sugabor]] ''Outputs a time-frequency representation of seismic data via the Gabor transform-like multifilter analysis technique''
+
+
+= Group and Phase Velocity Dispersion Analysis =
+== Group Velocity via the Gabor Transform ==
+;Gabor
+: [[sugabor]] ''Outputs a time-frequency representation of seismic data via the Gabor transform-like multifilter analysis technique''
+
+== Phase Velocity via F-K transform ==
+;Phase velocity dispersion
+: [[suphasevel]] ''Multi-mode PHASE VELocity dispersion map computed from shot record(s)''
+
+
+
+
+
+= Multicomponent =
+;Polarization analysis
+: [[supolar]] ''POLarization analysis of three-component data''
+;Polarization filters
+: [[supofilt]] ''POlarization FILTer for three-component data''
+: [[sueipofi]] ''Eigenimage (SVD) based POlarization Filter for three-component data''
+;Rotation
+: [[suhrot]] ''Horizontal ROTation of three-component data''
+
+
+
+
+= Refraction =
+: [[grm]] ''Generalized Reciprocal refraction analysis for a single layer''
+: [[surefcon]] ''Convolution of user-supplied Forward and Reverse refraction shots using XY trace offset in reverse shot''
+
+
+
+==Synthetics and Data Generation===
+=== Test Pattern and simple data sets ===
+: [[suplane]] ''create simple set of seismic events''
+: [[suimp2d]] ''create a 2D line scatter model''
+: [[susynlv]] ''create synthetic for V = V0 + K*z medium''
+: [[susynvxz]] ''create synthetic for V(X,Z) media''
+
+= Well log operations =
+
+== Backus Averaging ==
+
+;Parameter extraction from well logs by Backus averaging
+: [[subackus]] ''calculate Thomsen anisotropy parameters from well log <math>(V_p,V_s,\rho)</math> data via BACKUS averaging''
+: [[subackush]] ''calculate Thomsen anisotropy parameters from well log <math>(V_p,V_s,\rho)</math> data and optionally include intrinsic VTI shale layers based on gamma ray log via BACKUS averaging''
+: [[sulprime]] ''find appropriate Backus average length for a given log suite, frequency, and purpose ''
+
+== Synthetics from Well logs ==
+: [[suwellrf]] ''convert WELL log depth, velocity, density data into a uniformly sampled normal incidence Reflectivity Function of time''
+
+= Statics =
+
+== Add Static Shifts (for testing) ==
+: [[suaddstatics]] ''ADD random STATICS on seismic data''
+: [[surandstat]] ''Add RANDom time shifts STATIC errors to seismic traces''
+
+== Surface Consistent Source and Receiver Statics ==
+: [[suresstat]] ''Surface consistent source and receiver statics calculation''
+
+== Apply Static Corrections ==
+: [[sustatic]] ''Elevation static corrections, apply corrections from headers or from a source and receiver statics file''
+
+: [[sustaticrrs]] ''Elevation STATIC corrections, apply corrections from headers or from a source and receiver statics file,	  includes application of Residual Refraction Statics' ''
+
+
+== Data Compression ==
+
+;Discrete Cosine Transform
+: [[dctcomp]] ''Compression by Discrete Cosine Transform''
+: [[dctuncomp]] ''Discrete Cosine Transform Uncompression''
+
+;Packing
+: [[supack1]] ''Pack segy trace data into chars''
+: [[suunpack1]] ''Unpack segy trace data from chars to floats''
+: [[supack2]] ''Pack segy trace data into 2 byte shorts''
+: [[suunpack2]] ''Unpack segy trace data from shorts to floats''
+
+;Wavelet Transform-based
+: [[wpc1comp2]] ''Compress a 2D seismic section trace-by-trace using Wavelet Packets''
+: [[wpc1uncomp2]] ''Uncompress a 2D seismic section, which has been compressed using Wavelet Packets''
+: [[wpccompress]] ''Compress a 2D section using Wavelet Packets''
+: [[wpcuncompress]] ''Uncompress a 2D section''
+: [[wptcomp]] ''Compression by Wavelet Packet Compression''
+: [[wptuncomp]] ''Uncompress  WPT compressed data''
+: [[wtcomp]] ''Compression by Wavelet Transform''
+: [[wtuncomp]] ''Uncompression of WT compressed data''
+
+
+
+
+
+
+
+[[Category:SU programs| ]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[[Return to the Main Page|https://github.com/JohnWStockwellJr/SeisUnix/wiki]]

@@ -1,0 +1,6 @@
+== SUUNPACK2 - unpack segy trace data from shorts to floats       ==
+           
+Usage:
+<source>    suunpack2 <packed_file >unpacked_file            </source>            
+Notes:                                                               
+ suunpack2 is the approximate inverse of supack2   

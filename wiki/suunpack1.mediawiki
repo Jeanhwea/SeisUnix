@@ -1,0 +1,9 @@
+
+								
+== SUUNPACK1 - unpack segy trace data from chars to floats	==
+								
+
+<source> suunpack1 <packed_file >unpacked_file		</source>	
+	
+Note:							
+suunpack1 is the approximate inverse of supack1		
