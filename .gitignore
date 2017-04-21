@@ -1,0 +1,21 @@
+bin/*
+include/*
+lib/*
+
+# duplicated things
+src/LICENSE_43R1_ACCEPTED
+src/MAILHOME_43
+**/INSTALL
+
+# ignore auto generated files
+src/su/include/header.h
+src/su/include/mkhdr
+src/su/include/mkhdr.dSYM/
+src/su/include/mkheader
+src/su/include/mkheader.dSYM/
+src/su/include/mkxdrbhdrsub
+src/su/include/mkxdrbhdrsub.dSYM/
+src/su/include/mkxdrhdrsub
+src/su/include/mkxdrhdrsub.dSYM/
+src/su/include/offsets.h
+src/su/include/prehdr.h
