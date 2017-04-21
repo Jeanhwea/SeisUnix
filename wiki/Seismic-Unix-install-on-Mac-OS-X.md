@@ -16,12 +16,14 @@ Install Xcode
 On the Mac OS X system, all of the developer materials (make, gcc, gcc libraries, etc..) are part of a developer package called Xcode. Xcode is a suit of software developing tools for Mac OS X. Mac OS X install DVDs typically contain Xcode. However, most new machine purchases do not include the DVDs. You can download Xcode free of charge directly from Apple's website. You have to register as a developer to do the download. Once Xcode is installed, run the Xcode utility, and go to ​Preferences → Downloads → Components​. Install ​Command Line Tools​, which include make, gcc and the necessary libraries.
 
 Check that the Xcode has been installed correctly by launching a Terminal window and typing
-
+```sh
 gcc -v
+```
 
 Alternatively, you may type
-
+```sh
 which make
+```
 
 to see if the make utility is present.
 Download SU from CWP website
@@ -30,41 +32,41 @@ In what follows Seismic Unix will be downloaded and installed into the current u
 Local installation
 
 First, download the compressed tar-ball and unpack it to the home directory.
-
+```sh
 curl ftp://ftp.cwp.mines.edu/pub/cwpcodes/cwp_su_all_43R1.tgz -o ~/Downloads/cwp_su_all_43R1.tgz
 mkdir ~/cwp/43R1
 gunzip ~/Downloads/cwp_su_all_43R1.tgz
 tar -xvf ~/Downloads/cwp_su_all_43R1.tar -C ~/cwp/43R1/
-
+```
 Add new path variables to the configuration file and make the new settings active. To do that type in Terminal:
-
+```sh
 echo "export CWPROOT=~/cwp/43R1/" >> ~/.bashrc
 echo "export PATH=$PATH:~/cwp/43R1/bin" >> ~/.bashrc
 source ~/.bashrc
-
+```
 Global installation
 
 To set the system up as it is set up at CWP, you may do the following
-
+```sh
 sudo mkdir /usr/local
 sudo mkdir /usr/local/cwp
 sudo chown yourusername /usr/local/cwp
-
-After the directories have been created, download the gzipped tar archive of the CWP/SU materials into ​/usr/local/cwp​ and unbundle that there via
-
+```
+After the directories have been created, download the gzipped tar archive of the CWP/SU materials into /usr/local/cwp and unbundle that there via
+```sh
 gunzip cwp_su_all_43R1.tgz
 tar -xvf cwp_su_all_43R1.gz
-
-Add the following lines to the file ​.profile​ that is in your home directory
-
+```
+Add the following lines to the file .profile that is in your home directory
+```sh
 export CWPROOT=/usr/local/cwp
 export PATH=$PATH:$CWPROOT/bin:.
-
-Note that under bash, usually there are two files ​.bashrc​ and ​.bash_profile​, or ​.profile​. This path information may need to exist in one or all of these files.
+```
+Note that under bash, usually there are two files .bashrc and .bash_profile, or .profile. This path information may need to exist in one or all of these files.
 Edit the SU configuration file
 
-Edit the file located at ​$CWPROOT/src/Makefile.config​. The following is an example. You may wish to use other settings.
-
+Edit the file located at $CWPROOT/src/Makefile.config. The following is an example. You may wish to use other settings.
+```sh
 SHELL = /bin/sh
 LN = /bin/ln
 ROOT = $(CWPROOT)
@@ -96,9 +98,9 @@ LMOTIF = /usr/X11/lib
 include $(CWPROOT)/src/Rules/cflags.rules
 include $(CWPROOT)/src/Rules/suffix.rules
 include $(CWPROOT)/src/Rules/misc.rules
-
+```
 # Another possibility for Mac OS X - Lion 
-
+```sh
 include $(CWPROOT)/src/Rules/gnumake.rules
 include $(CWPROOT)/src/Rules/abbrev.rules
 include $(CWPROOT)/src/Rules/cflags.rules
@@ -160,22 +162,22 @@ FOPTS = -g
 FFLAGS = $(FOPTS) -ffixed-line-length-none
 
 C++FLAGS = -I$I $(OPTC) $(CWP_FLAGS)
-
+```
 
 Install the desired components
-
+```sh
 cd $CWPROOT/src
 make install 
 make xtinstall 
-make utils     
+make utils
 make xminstall
-
+```
 Test the installation
 
 Run X11, which is typically located in /Applications/Utilities. Execute the following command:
-
+```sh
 suplane | suximage title="My first test" &
-
+```
 If a figure appears then the installation has been done correctly. If you run this command in Terminal then X11 will start automatically, but it will take a few seconds longer.
 v · d · e Seismic Unix install
 Platform	
